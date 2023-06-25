@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DVD Animation</title>
+</head>
+<style>
+	html, body {
+		background-color: #000000;
+	}
+
+	.dvd_logo {
+		position: relative;
+		width: 15rem;
+	}
+</style>
+<body>
+	<img src="dvd_logo.svg" id="dvdLogo" class="dvd_logo"/>
+</body>
+
+<script>
+	const dvdLogo = document.getElementById('dvdLogo');
+
+	const colors = ['red', 'green', 'blue', 'yellow', 'gray', 'orange'];
+	const INTERVAL_TIME = 20;
+
+	let xPosition = 5;
+	let yPosition = 5;
+	let moveXPosition = 5;
+	let moveYPosition = 5;
+
+	function updateColor() {
+		const randomValue = Math.floor(Math.random() * (colors.length - 1));
+		const actualColor = dvdLogo.style.backgroundColor;
+		const filteredColors = colors.filter(color => color !== actualColor); 
+		const randomColor = filteredColors[randomValue];
+
+		dvdLogo.style.backgroundColor = randomColor;
+	}
+
+	function run() {
+		if (xPosition + dvdLogo.clientWidth >= window.innerWidth || xPosition <= 0) {
+			moveXPosition = -moveXPosition;
+			updateColor();
+		}
+
+		if (yPosition + dvdLogo.clientHeight >= window.innerHeight || yPosition <= 0) {
+			moveYPosition = -moveYPosition;
+			updateColor();
+		}
+
+		xPosition += moveXPosition;
+		yPosition += moveYPosition;
+
+		dvdLogo.style.left = `${xPosition}px`;
+		dvdLogo.style.top = `${yPosition}px`;
+	}
+
+	updateColor();
+
+	setInterval(async () => {
+		run();
+	}, INTERVAL_TIME);
+</script>
+</html>
